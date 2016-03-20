@@ -1,5 +1,10 @@
 /*
- * Description: 
+ * Description:
+ *
+ * Node.js do not understand JSX sp we need a way to compile the code
+ * on the server in order to use server rendering via renderToString function in React
+ *
+ * Webpack will build a server bundle, in the same way as we do for the client
  *
  * Author:  Henrik
  * File:    

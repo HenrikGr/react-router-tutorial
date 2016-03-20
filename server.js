@@ -8,50 +8,86 @@
  * Created on 2016-03-18
  */
 
-// import some new stuff
+/**
+ * Import React
+ */
 import React from 'react'
 
-// we'll use this to render our app to an html string
+/**
+ * Import renderToString for server rendering
+ */
 import { renderToString } from 'react-dom/server'
 
-// and these to match the url to routes and then render
+/**
+ * Import match and RouterContext to match url to application routes to render
+ */
 import { match, RouterContext } from 'react-router'
 
-// import routes
+/**
+ * Import application routes
+ */
 import routes from './modules/routes'
 
+/**
+ * Set up an express web server
+ */
 var express = require('express');
 var path = require('path');
 var compression = require('compression');
-
 var app = express();
 
-// Use compression, must be first
-app.use(compression())
+/**
+ * Use compression and it must be the first middleware
+ */
+app.use(compression());
 
-// add path.join here
+/**
+ * Serve static resources from public directory
+ */
 app.use(express.static(path.join(__dirname, 'public')));
 
+/**
+ * Take care of all requests
+ */
 app.get('*', (req, res) => {
+
+  /**
+   * Match incoming url against application routes
+   */
   match({ routes: routes, location: req.url }, (err, redirect, props) => {
-    // in here we can make some decisions all at once
+
+    /**
+     * Error during route matching
+     */
     if (err) {
-      // there was an error somewhere during route matching
-      res.status(500).send(err.message)
-    } else if (redirect) {
-      // we haven't talked about `onEnter` hooks on routes, but before a
-      // route is entered, it can redirect. Here we handle on the server.
-      res.redirect(redirect.pathname + redirect.search)
-    } else if (props) {
-      // if we got props then we matched a route and can render
-      const appHtml = renderToString(<RouterContext {...props}/>)
-      res.send(renderPage(appHtml))
-    } else {
-      // no errors, no redirect, we just didn't match anything
-      res.status(404).send('Not Found')
+      res.status(500).send(err.message);
     }
-  })
+
+    /**
+     * Handle redirects, often used from onEnter hooks on a route,
+     * i.e, before a route is entered, it can redirect.
+     */
+    else if (redirect) {
+      res.redirect(redirect.pathname + redirect.search);
+    }
+
+    /**
+     * We got props, which means a route match and we can render on server
+     */
+    else if (props) {
+      const appHtml = renderToString(<RouterContext {...props}/>);
+      res.send(renderPage(appHtml));
+    }
+
+    /**
+     * No, error, no redirect, we just did not match anything and returning 404.
+     */
+    else {
+      res.status(404).send('Not Found');
+    }
+  });
 });
+
 
 function renderPage(appHtml) {
   return `
