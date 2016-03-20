@@ -1,5 +1,7 @@
 /*
- * Description: 
+ * Description:
+ *
+ * Entry point file for webpack, used to create bundle.js and sent to the client
  *
  * Author:  Henrik
  * File:    

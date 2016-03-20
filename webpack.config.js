@@ -1,7 +1,25 @@
 // make sure to import this
 var webpack = require('webpack');
 
+/**
+ * Export config for webpack
+ * @type {
+ *  {
+ *    entry: string,
+ *    output: {
+ *      path: string,
+ *      filename: string,
+ *      publicPath: string
+ *    },
+ *    plugins: *,
+ *    module: {
+ *      loaders: *[]
+ *    }
+ *  }
+ *}
+ */
 module.exports = {
+  
   entry: './index.js',
 
   output: {
