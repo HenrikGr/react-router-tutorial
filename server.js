@@ -50,12 +50,13 @@ app.use(express.static(path.join(__dirname, 'public')));
  * Take care of all requests
  */
 app.get('*', (req, res) => {
-
+  console.log(req.url);
+  
   /**
    * Match incoming url against application routes
    */
   match({ routes: routes, location: req.url }, (err, redirect, props) => {
-
+    
     /**
      * Error during route matching
      */
@@ -94,9 +95,12 @@ function renderPage(appHtml) {
     <!doctype html public="storage">
     <html>
     <meta charset=utf-8/>
-    <title>My Second React Router App</title>
+    <title>HGC AB</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
     <link rel=stylesheet href=/index.css>
     <div id=app>${appHtml}</div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
     <script src="/bundle.js"></script>
    `
 }

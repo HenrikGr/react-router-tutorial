@@ -16,27 +16,22 @@
 import React from 'react'
 
 /**
- * Import navigation link component
+ * Import the application bar
  */
-import NavLink from './NavLink'
+import AppBar from './AppBar/AppBar'
 
 /**
  * Export render method for the app component
  */
 export default React.createClass({
+  
   render() {
     return (
       <div>
-        <h1>Ghettohub Issues</h1>
-        <ul role="nav">
-          <li><NavLink to="/" onlyActiveOnIndex>Home</NavLink></li>
-          <li><NavLink to="/about">About</NavLink></li>
-          <li><NavLink to="/repos">Repos</NavLink></li>
-        </ul>
-
-        {/* This displays the name of the route */}
-        {this.props.children}
-
+        <AppBar/>
+        <div className="container">
+          {this.props.children}
+        </div>
       </div>
     )
   }
